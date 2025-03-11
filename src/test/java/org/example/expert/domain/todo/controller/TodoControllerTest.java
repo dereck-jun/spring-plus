@@ -39,13 +39,13 @@ class TodoControllerTest {
         User user = User.fromAuthUser(authUser);
         UserResponse userResponse = new UserResponse(user.getId(), user.getEmail());
         TodoResponse response = new TodoResponse(
-                todoId,
-                title,
-                "contents",
-                "Sunny",
-                userResponse,
-                LocalDateTime.now(),
-                LocalDateTime.now()
+            todoId,
+            title,
+            "contents",
+            "Sunny",
+            userResponse,
+            LocalDateTime.now(),
+            LocalDateTime.now()
         );
 
         // when
@@ -53,9 +53,9 @@ class TodoControllerTest {
 
         // then
         mockMvc.perform(get("/todos/{todoId}", todoId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(todoId))
-                .andExpect(jsonPath("$.title").value(title));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(todoId))
+            .andExpect(jsonPath("$.title").value(title));
     }
 
     @Test
@@ -65,13 +65,13 @@ class TodoControllerTest {
 
         // when
         when(todoService.getTodo(todoId))
-                .thenThrow(new InvalidRequestException("Todo not found"));
+            .thenThrow(new InvalidRequestException("Todo not found"));
 
         // then
         mockMvc.perform(get("/todos/{todoId}", todoId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(HttpStatus.OK.name()))
-                .andExpect(jsonPath("$.code").value(HttpStatus.OK.value()))
-                .andExpect(jsonPath("$.message").value("Todo not found"));
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
+            .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))
+            .andExpect(jsonPath("$.message").value("Todo not found"));
     }
 }
