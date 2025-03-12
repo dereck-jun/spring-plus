@@ -40,7 +40,7 @@ public class User extends Timestamped {
 
     public static User fromAuthUser(AuthUser authUser) {
         GrantedAuthority authority = authUser.getAuthorities().iterator().next();
-        return new User(authUser.getId(), authUser.getEmail(), authUser.getEmail(), UserRole.of(authority.getAuthority()));
+        return new User(authUser.getId(), authUser.getEmail(), authUser.getEmail(), UserRole.fromRole(authority.getAuthority()));
     }
 
     public void changePassword(String password) {
