@@ -1,0 +1,32 @@
+spring:
+  config:
+    activate:
+      on-profile: "datasource-prod"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_ENDPOINT}/${MYSQL_DB}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "datasource-local"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${LOCAL_URL}/${LOCAL_DB}
+    username: ${LOCAL_USERNAME}
+    password: ${LOCAL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+    open-in-view: false

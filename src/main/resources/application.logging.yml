@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: "logging-prod"
+logging:
+  level:
+    root: WARN
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "logging-local"
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace

@@ -1,23 +1,17 @@
 spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: ${H2_URL}
-    username: sa
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
-
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
-
-
-jwt:
-  secret:
-    key: ${JWT_SECRET}
+  application:
+    name: expert-application
+  profiles:
+    group:
+      local:
+        - "datasource-local"
+        - "logging-local"
+      prod:
+        - "datasource-prod"
+        - "logging-prod"
+    active: prod
+  config:
+    import:
+      - classpath:application-datasource.yml
+      - classpath:application.logging.yml
+      - classpath:application-secret.yml
