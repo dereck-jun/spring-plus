@@ -40,7 +40,7 @@ public class SecurityConfig {
 			.httpBasic(AbstractHttpConfigurer::disable)
 			.logout(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(request ->
-				request.requestMatchers("/auth/**").permitAll()
+				request.requestMatchers("/auth/**", "/actuator/health").permitAll()
 					.requestMatchers("/admin/**").hasAuthority(UserRole.ADMIN.getRole())
 					.anyRequest().authenticated())
 			.addFilterBefore(jwtAuthenticationFilter, SecurityContextHolderAwareRequestFilter.class)
