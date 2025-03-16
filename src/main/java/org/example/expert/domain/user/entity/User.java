@@ -11,7 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "users")
+@Table(
+    name = "users",
+    indexes = @Index(name = "IDX_users_nickname", columnList = "nickname"))
 public class User extends Timestamped {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +21,7 @@ public class User extends Timestamped {
     @Column(unique = true)
     private String email;
     private String password;
+    private String profileImageUrl;
     @Column(nullable = false)
     private String nickname;
     @Enumerated(EnumType.STRING)
@@ -29,6 +32,7 @@ public class User extends Timestamped {
         this.password = password;
         this.nickname = nickname;
         this.userRole = userRole;
+        this.profileImageUrl = "profile.jpg";
     }
 
     private User(Long id, String email, String nickname, UserRole userRole) {
@@ -49,5 +53,9 @@ public class User extends Timestamped {
 
     public void updateRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public void changeProfileImage(String imageUrl) {
+        this.profileImageUrl = imageUrl;
     }
 }

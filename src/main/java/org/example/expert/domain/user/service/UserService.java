@@ -3,12 +3,16 @@ package org.example.expert.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
+import org.example.expert.domain.user.dto.request.UserChangeProfileRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -41,10 +45,26 @@ public class UserService {
         user.changePassword(passwordEncoder.encode(userChangePasswordRequest.getNewPassword()));
     }
 
+    @Transactional
+    public void changeProfileImage(long userId, UserChangeProfileRequest request) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new InvalidRequestException("User not found"));
+
+        if (!StringUtils.hasText(request.getChangeProfileUrl())) {
+            user.changeProfileImage("profile.jpg");
+        } else {
+            user.changeProfileImage(request.getChangeProfileUrl());
+        }
+    }
+
+    public Page<UserResponse> getUsersByNickname(String nickname, Pageable pageable) {
+        return userRepository.findAllByNickname(nickname, pageable);
+    }
+
     private static void validateNewPassword(UserChangePasswordRequest userChangePasswordRequest) {
         if (userChangePasswordRequest.getNewPassword().length() < 8 ||
-                !userChangePasswordRequest.getNewPassword().matches(".*\\d.*") ||
-                !userChangePasswordRequest.getNewPassword().matches(".*[A-Z].*")) {
+            !userChangePasswordRequest.getNewPassword().matches(".*\\d.*") ||
+            !userChangePasswordRequest.getNewPassword().matches(".*[A-Z].*")) {
             throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
         }
     }

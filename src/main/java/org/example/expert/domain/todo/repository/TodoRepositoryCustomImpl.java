@@ -45,11 +45,11 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
 			.select(Projections.constructor(TodoSearchResponse.class,
 				todo.id,
 				todo.title,
-				manager.count(),
-				comment.count()))
+				manager.countDistinct(),
+				comment.countDistinct()))
 			.from(todo)
-			.leftJoin(todo.managers, manager)
-			.leftJoin(todo.comments, comment)
+			.leftJoin(todo.managers, manager).on(todo.id.eq(manager.todo.id))
+			.leftJoin(todo.comments, comment).on(todo.id.eq(comment.todo.id))
 			.where(
 				titleContains(title),
 				managerNameContains(managerName),
