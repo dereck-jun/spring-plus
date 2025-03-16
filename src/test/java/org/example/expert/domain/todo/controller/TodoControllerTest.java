@@ -1,15 +1,15 @@
 package org.example.expert.domain.todo.controller;
 
 import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.example.expert.config.JwtAuthenticationFilter;
 import org.example.expert.config.JwtUtil;
-import org.example.expert.config.SecurityConfig;
+import org.example.expert.config.PropertyConfig;
 import org.example.expert.config.WithMockAuthUser;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -19,16 +19,15 @@ import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
+@Import({PropertyConfig.class, JwtUtil.class, JwtAuthenticationFilter.class})
 @WebMvcTest(TodoController.class)
 class TodoControllerTest {
 
@@ -38,16 +37,13 @@ class TodoControllerTest {
 	@MockBean
 	private TodoService todoService;
 
-	@MockBean
-	private JwtUtil jwtUtil;
-
 	@Test
 	@WithMockAuthUser(userId = 1L, email = "a@a.com", role = UserRole.USER)
 	void todo_단건_조회에_성공한다() throws Exception {
 		// given
 		long todoId = 1L;
 		String title = "title";
-		AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		AuthUser authUser = (AuthUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = User.fromAuthUser(authUser);
 		UserResponse userResponse = new UserResponse(user.getId(), user.getEmail());
 		LocalDateTime now = LocalDateTime.now();

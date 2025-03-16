@@ -24,9 +24,13 @@ spring:
     password: ${LOCAL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
+#        더미 데이터 생성에 사용
+#        jdbc:
+#          batch_size: 1000
+#        order_updates: true
         format_sql: true
         use_sql_comments: true
     open-in-view: false
