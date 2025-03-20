@@ -21,7 +21,7 @@ public class ManagerSaveLoggingAspect {
 	private final HttpServletRequest request;
 	private final LogService logService;
 
-	@Around("execution(* org.example.expert.domain.manager.controller.ManagerController.saveManager(..))")
+	@Around("execution(* org.example.expert.domain.manager.service.ManagerService.saveManager(..))")
 	public Object logAroundSaveManager(ProceedingJoinPoint joinPoint) throws Throwable {
 		String traceId = UUID.randomUUID().toString().substring(0, 7);
 		Long userId = getPrincipalByAuthentication().getId();
