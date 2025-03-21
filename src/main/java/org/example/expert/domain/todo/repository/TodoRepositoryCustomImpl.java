@@ -1,27 +1,23 @@
 package org.example.expert.domain.todo.repository;
 
-import static org.example.expert.domain.comment.entity.QComment.*;
-import static org.example.expert.domain.manager.entity.QManager.*;
-import static org.example.expert.domain.todo.entity.QTodo.*;
-import static org.example.expert.domain.user.entity.QUser.*;
-import static org.springframework.util.StringUtils.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-
-import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
-import org.example.expert.domain.todo.entity.Todo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
-
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import static org.example.expert.domain.comment.entity.QComment.comment;
+import static org.example.expert.domain.manager.entity.QManager.manager;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
+import static org.example.expert.domain.todo.entity.QTodo.todo;
+import org.example.expert.domain.todo.entity.Todo;
+import static org.example.expert.domain.user.entity.QUser.user;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
+import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
 public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {

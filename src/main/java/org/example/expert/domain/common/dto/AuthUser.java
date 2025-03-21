@@ -2,7 +2,6 @@ package org.example.expert.domain.common.dto;
 
 import java.util.Collection;
 import java.util.List;
-
 import lombok.Getter;
 import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;

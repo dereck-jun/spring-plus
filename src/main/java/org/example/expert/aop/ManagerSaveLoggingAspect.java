@@ -1,6 +1,8 @@
 package org.example.expert.aop;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,8 +12,6 @@ import org.example.expert.domain.log.service.LogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 
 @Aspect
 @Component

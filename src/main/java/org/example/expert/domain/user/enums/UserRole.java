@@ -1,12 +1,9 @@
 package org.example.expert.domain.user.enums;
 
-import org.example.expert.domain.common.exception.InvalidRequestException;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.util.Arrays;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.example.expert.domain.common.exception.InvalidRequestException;
 
 @Getter
 @RequiredArgsConstructor

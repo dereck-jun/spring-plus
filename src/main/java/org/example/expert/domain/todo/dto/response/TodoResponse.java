@@ -1,9 +1,8 @@
 package org.example.expert.domain.todo.dto.response;
 
+import java.time.LocalDateTime;
 import lombok.Getter;
 import org.example.expert.domain.user.dto.response.UserResponse;
-
-import java.time.LocalDateTime;
 
 @Getter
 public class TodoResponse {
