@@ -38,10 +38,13 @@ jobs:
           AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
 
+      - name: Check runner public IP
+        run: curl https://api.ipify.org
+
       - name: Copy build files to EC2
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ secrets.EC2_HOST_BACK }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: ./build/libs/*.jar
