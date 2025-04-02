@@ -8,10 +8,9 @@ on:
       - develop
 
 jobs:
-  deploy:
+  setup:
     if: github.event.pull_request.merged == true
-    runs-on: [ubuntu-latest, self-hosted]
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +36,10 @@ jobs:
           AWS_PRIVATE-KEY: ${{ secrets.AWS_PRIVATE_KEY }}
           AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: self-hosted
+    steps:
       - name: Check runner public IP
         run: curl https://api.ipify.org
 
