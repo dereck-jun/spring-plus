@@ -29,7 +29,7 @@ jobs:
           AWS_PRIVATE-KEY: ${{ secrets.AWS_PRIVATE_KEY }}
           AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-        run: ./gradlew bootJar
+        run: sudo chmod +x ./gradlew && ./gradlew build
 
   deploy:
     needs: build
