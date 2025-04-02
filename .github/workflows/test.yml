@@ -28,15 +28,15 @@ jobs:
       - name: Build project
         run: ./gradlew bootJar
         env:
-          MYSQL_ENDPOINT=${{ secrets.MYSQL_ENDPOINT }}
-          MYSQL_DB=${{ secrets.MYSQL_DB }}
-          MYSQL_USERNAME=${{ secrets.MYSQL_USERNAME }}
-          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
-          JWT_SECRET=${{ secrets.JWT_SECRET }}
-          AWS_ACCESS-KEY=${{ secrets.AWS_ACCESS_KEY }}
-          AWS_PRIVATE-KEY=${{ secrets.AWS_PRIVATE_KEY }}
-          AWS_S3_REGION=${{ secrets.AWS_S3_REGION }}
-          AWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET }}
+          MYSQL_ENDPOINT: ${{ secrets.MYSQL_ENDPOINT }}
+          MYSQL_DB: ${{ secrets.MYSQL_DB }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AWS_ACCESS-KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_PRIVATE-KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+          AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
 
       - name: Copy build files to EC2
         uses: appleboy/scp-action@master
