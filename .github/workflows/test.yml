@@ -1,17 +1,30 @@
-name: Deploy to EC2
+name: EC2에 배포하기
 
 on:
-  push:
-    branches: [ main ]
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Build the project
+        env:
+          MYSQL_ENDPOINT: ${{ secrets.MYSQL_ENDPOINT }}
+          MYSQL_DB: ${{ secrets.MYSQL_DB }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AWS_ACCESS-KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_PRIVATE-KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+          AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         run: ./gradlew bootJar
 
   deploy:
