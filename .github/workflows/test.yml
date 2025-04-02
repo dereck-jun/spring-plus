@@ -1,6 +1,10 @@
 name: EC2에 배포하기
 
 on:
+  push:
+    branches:
+      - feat/**
+      - fix/**
   pull_request:
     types: [closed]
     branches:
@@ -43,6 +47,13 @@ jobs:
           # SSH 키를 파일로 저장합니다.
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
+          
+          # 빌드 산출물이 있는지 확인 및 첫 번째 JAR 파일 선택
+          echo "Listing JAR files in build/libs:"
+          ls -al build/libs
+          JAR_FILE=$(ls build/libs/*.jar | head -n 1)
+          echo "Found JAR file: $JAR_FILE"
+          
           # 빌드된 JAR 파일을 EC2로 전송합니다.
           scp -o StrictHostKeyChecking=no -i private_key.pem build/libs/*.jar $EC2_USERNAME@$EC2_HOST:/home/ubuntu/app/
 
