@@ -36,6 +36,12 @@ jobs:
       - name: 빌드된 파일 이름 변경
         run: sudo mv ./build/libs/*SNAPSHOT.jar ./app.jar
 
+      - name: Debug Variables
+        run: |
+          echo "EC2 Host: ${{ secrets.EC2_HOST }}"
+          echo "EC2 Username: ${{ secrets.EC2_USERNAME }}"
+          echo "SSH Key Length: $(echo "${{ secrets.EC2_SSH_KEY }}" | wc -c)"
+
       - name: AWS CLI를 통한 파일 전송
         uses: aws-actions/configure-aws-credentials@v4
         with:
