@@ -49,8 +49,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
       - name: Deploy application on EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
