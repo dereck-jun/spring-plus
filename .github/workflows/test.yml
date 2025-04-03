@@ -44,6 +44,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "./app.jar"
           target: "~"
+          timeout: '2m'
 
   deploy:
     needs: build
