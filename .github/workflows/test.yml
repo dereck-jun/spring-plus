@@ -36,14 +36,18 @@ jobs:
       - name: 빌드된 파일 이름 변경
         run: sudo mv ./build/libs/*SNAPSHOT.jar ./app.jar
 
-      - name: .jar 파일을 EC2 서버에 올리기
-        uses: appleboy/scp-action@v0.1.7
+      - name: AWS CLI를 통한 파일 전송
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: app.jar
-          target: /home/ubuntu/
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_PRIVATE_KEY }}
+          aws-region: ${{ secrets.AWS_S3_REGION }}
+
+      - name: S3 업로드 후 EC2에서 다운로드
+        run: |
+          aws s3 cp app.jar s3://${{ secrets.AWS_S3_BUCKET }}/
+          ssh -i ${{ secrets.EC2_SSH_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} \
+            "aws s3 cp s3://${{ secrets.AWS_S3_BUCKET }}/app.jar ~/"
 
   deploy:
     needs: build
