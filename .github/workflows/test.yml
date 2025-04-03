@@ -42,9 +42,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "./app.jar"
-          target: "~"
-          timeout: '2m'
+          source: app.jar
+          target: /home/ubuntu/
 
   deploy:
     needs: build
@@ -60,5 +59,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
+            ls -al
+            pwd
             sudo fuser -k -n tcp 8080 || true
             nohup java -jar app.jar > /dev/null 2>&1 &
